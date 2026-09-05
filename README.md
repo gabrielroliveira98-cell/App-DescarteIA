@@ -1,140 +1,56 @@
-# ♻️ DescarteIA
+# DescarteIA
 
-**Aplicativo móvel** onde o usuário informa, pelo chat, **o que deseja
-descartar** — e uma Inteligência Artificial orienta **como e onde fazer o
-descarte correto** daquele item.
+## 🎯 ODS Escolhido
+**ODS 12 – Consumo e Produção Responsáveis**
 
-> **Status:** em planejamento. Esta etapa entrega a governança do projeto
-> (repositório + Kanban + issues), o Documento de Visão e Escopo (este
-> README) e a modelagem inicial (Diagrama de Classes). O desenvolvimento do
-> aplicativo começa na próxima etapa.
+Escolhemos esse ODS porque ele fala sobre reduzir o desperdício e melhorar a forma como a gente descarta o que produz. É basicamente o problema que o nosso app resolve: ajudar as pessoas a descartar o lixo do jeito certo, sem gerar mais resíduo do que precisa e sem contaminar o que poderia ser reciclado.
 
-## Documento de Visão e Escopo
+## 🚨 O Problema Real
+Muita gente não sabe onde jogar cada tipo de lixo. Pilha, eletrônico, óleo de cozinha, isopor, plástico, papelão sujo de comida... cada coisa tem um jeito certo de descartar, mas ninguém sabe na hora, e a informação é difícil de achar (geralmente só existe em site de prefeitura, difícil de encontrar, ou espalhada em vários lugares diferentes).
 
-### Nome do projeto
+Isso causa alguns problemas no dia a dia:
+- Lixo reciclável se mistura com lixo comum e acaba estragando o lote inteiro (não dá mais pra reciclar depois).
+- Coisas perigosas, como pilha, remédio vencido e eletrônico, são jogadas no lixo comum e acabam poluindo o solo e a água.
+- Aterros sanitários ficam mais cheios do que precisavam, porque muita coisa que era pra ser reciclada ou reaproveitada vai parar lá.
+- As pessoas até têm boa vontade de descartar certo, mas desistem porque é complicado descobrir como.
 
-**DescarteIA**
+## 🤖 A Solução com IA
+O DescarteIA usa a IA (API da Anthropic/Claude) como o "cérebro" do app, pra tirar a dúvida do usuário na hora:
 
-### O problema real
+1. O usuário descreve (ou no futuro, fotografa) o item que quer jogar fora.
+2. A IA identifica que tipo de resíduo é aquilo (reciclável, orgânico, perigoso, eletrônico, etc.).
+3. A IA explica pro usuário onde e como descartar aquilo certinho (ponto de coleta, ecoponto, cooperativa, lixo comum mesmo, etc.), de um jeito simples e direto.
+4. O app guarda um histórico das classificações que o usuário já fez, então dá pra ele ver quantas vezes descartou certo e ter noção do próprio impacto.
 
-Muita gente não sabe o destino correto de itens do dia a dia — pilhas,
-eletrônicos, óleo de cozinha, remédios vencidos, entre outros — e acaba
-descartando tudo no lixo comum. Isso contamina solo e água (no caso de
-resíduos perigosos) e desperdiça material que poderia ser reciclado. A causa
-não é falta de vontade: é falta de uma forma **rápida e confiável** de saber
-o que fazer com aquele item específico, sem precisar pesquisar em várias
-fontes diferentes.
+A ideia central é resolver na hora aquela dúvida clássica de "onde eu jogo isso?", sem precisar pesquisar no Google, perguntar em grupo de WhatsApp ou simplesmente jogar no lixo comum por não saber.
 
-### ODS escolhido
+## 📱 Como o App Funciona
 
-- **ODS 12 — Consumo e Produção Responsáveis** (principal): o projeto ataca
-  diretamente a meta de redução da geração de resíduos por meio de
-  prevenção, reciclagem e reuso, dando ao cidadão comum uma ferramenta
-  prática para descartar corretamente no dia a dia.
-- **ODS 11 — Cidades e Comunidades Sustentáveis** (relacionado): ao orientar
-  o descarte correto em escala, o app contribui para uma gestão mais
-  sustentável dos resíduos urbanos.
+O DescarteIA é bem direto ao ponto: o usuário abre o app, digita (ou descreve) o que ele quer descartar, e a IA responde na hora com a classificação e a orientação correta. Não tem cadastro complicado nem monte de telas — o foco é resolver a dúvida rápido.
 
-### A solução com IA
+**Passo a passo de uso:**
 
-A IA é o diferencial do aplicativo, combinando duas camadas:
+1. **Tela inicial**: o usuário vê um campo simples tipo "O que você quer descartar hoje?" e digita algo, tipo "pilha usada" ou "garrafa pet".
+2. **Classificação pela IA**: o app manda essa descrição pra IA (via API da Anthropic), que analisa o item e identifica a categoria dele — reciclável, orgânico, resíduo perigoso, eletrônico, etc.
+3. **Resposta com orientação**: a IA devolve uma explicação simples de como descartar aquilo certo (ex: "pilhas não vão no lixo comum, procure um ponto de coleta de eletrônicos ou supermercados que aceitam pilhas usadas").
+4. **Histórico salvo**: toda consulta que o usuário faz fica guardada no histórico do app, então ele consegue ver depois tudo que já pesquisou e como descartou.
+5. **Acompanhamento**: com o tempo, o usuário consegue enxergar quantos itens já classificou certo, criando um hábito mais consciente de descarte.
 
-1. **Sistema de classificação/recomendação** — a partir da descrição livre do
-   item (texto digitado pelo usuário), a IA identifica a categoria de
-   resíduo correspondente (reciclável comum, perigoso, orgânico, eletrônico
-   etc.), sem exigir que o usuário conheça essa categoria de antemão.
-2. **IA generativa de texto** — a partir da categoria identificada, a IA
-   gera a orientação de descarte em linguagem natural, conversacional e
-   personalizada à pergunta do usuário, em vez de devolver uma resposta
-   engessada de banco de dados.
+**Por trás dos panos (tecnicamente):**
 
-Essa combinação é o que permite a experiência de chat: o usuário não
-preenche formulário nem navega por categorias — ele só descreve o item, com
-suas próprias palavras.
+- O front-end é feito em **React**, com uma interface simples e responsiva pra funcionar bem tanto no celular quanto no navegador.
+- A parte de "inteligência" do app é feita chamando a **API da Anthropic (Claude)**, que recebe a descrição do item e devolve a classificação + orientação de descarte em linguagem natural.
+- O histórico das consultas é salvo localmente no navegador do usuário (local storage), então mesmo sem um banco de dados complexo, o usuário não perde o que já pesquisou.
+- A estrutura do sistema foi pensada em POO (Programação Orientada a Objetos), com entidades bem definidas como Usuário, Resíduo, Classificação e Histórico — isso facilita expandir o app no futuro (por exemplo, adicionando reconhecimento de imagem em vez de só texto).
 
-### Público-alvo
+No fim das contas, o app funciona como um "assistente de bolso" pra descarte de lixo: você não precisa saber as regras de reciclagem de cor, só precisa perguntar.
 
-Pessoas em geral que usam o celular no dia a dia e querem descartar algo
-corretamente sem pesquisar em várias fontes — com foco inicial em estudantes
-e moradores de áreas urbanas, público mais engajado com sustentabilidade e
-já habituado a apps de chat/mensagens no smartphone.
+## 👥 Público-Alvo
+- Pessoas que moram em cidade e não sabem separar o lixo direito no dia a dia.
+- Estudantes e famílias que querem ajudar o meio ambiente mas não têm essa informação na mão.
+- Condomínios e síndicos que querem melhorar a coleta seletiva do prédio.
+- Cooperativas de reciclagem, que passam a receber material mais limpo, separado e organizado.
+- Prefeituras e órgãos ambientais, que no futuro poderiam usar dados do app pra entender onde tem mais descarte errado na cidade.
 
-## Funcionalidades principais
-
-- Chat para o usuário informar o item a ser descartado.
-- Classificação automática do item por categoria de resíduo.
-- Orientação de como e onde descartar corretamente cada categoria.
-- Dicas educativas sobre o impacto ambiental do descarte incorreto.
-- (Futuro) Histórico de itens consultados e localização de pontos de coleta
-  próximos.
-
-## Governança e gestão do projeto
-
-- **Repositório**: este é o repositório principal do projeto.
-- **Kanban**: acompanhamento das tarefas no quadro
-  [DescarteIA (Projects)](https://github.com/users/gabrielroliveira98-cell/projects/5),
-  com as colunas `To Do`, `In Progress`, `Review` e `Done`. As 7 issues
-  iniciais já estão no quadro, na coluna `To Do`.
-- **Issues**: cada tarefa inicial vira uma issue, atribuída a um integrante
-  (ver divisão de tarefas abaixo) e adicionada ao quadro Kanban.
-
-## Integrantes do grupo
-
-| Nome |
-|---|
-| Gabriel |
-| Arthur |
-| Nayslon |
-| João Pedro |
-| Renato |
-| Larissa |
-| Roberthy |
-
-## Divisão de tarefas
-
-Cada integrante tem uma frente de responsabilidade principal para a próxima
-etapa (desenvolvimento), registrada como uma [Issue](../../issues) no
-repositório:
-
-| Integrante | Frente | Responsabilidade |
-|---|---|---|
-| Gabriel | Arquitetura & IA | Definir a arquitetura geral do app e integrar a IA de classificação ao chat |
-| Arthur | Frontend | Desenvolver a interface do chat |
-| Nayslon | Backend | Desenvolver a API que liga o chat à IA |
-| João Pedro | Modelagem de dados | Modelar o banco de dados e finalizar o Diagrama de Classes |
-| Renato | Conteúdo / Regras de descarte | Levantar e estruturar as regras de descarte por categoria de resíduo |
-| Larissa | UX/UI | Criar o protótipo visual do aplicativo |
-| Roberthy | Documentação & Testes | Escrever a documentação técnica e o plano de testes |
-
-Mapeando para as três frentes sugeridas para esta etapa:
-
-- **Documento de Visão (ODS/pesquisa)**: Renato, Roberthy, Larissa.
-- **Modelagem técnica (Diagrama de Classes / POO)**: João Pedro, Gabriel, Nayslon.
-- **Ambiente GitHub / Kanban**: Arthur, com apoio de Gabriel na configuração inicial.
-
-> Como o repositório ainda não tem os integrantes adicionados como
-> colaboradores (falta o usuário do GitHub de cada um), as issues abaixo
-> identificam o responsável pelo nome no título — assim que todos entrarem
-> como colaboradores, é só atribuí-las (assignee) normalmente.
-
-## Issues abertas
-
-Uma issue inicial por integrante, cobrindo a frente de trabalho da tabela
-acima — veja a aba [Issues](../../issues) do repositório.
-
-## Estrutura do repositório
-
-```
-README.md          # este arquivo
-docs/               # documentos do projeto (requisitos, atas, pesquisa etc.)
-  diagrama-classes.md   # estrutura inicial do Diagrama de Classes
-```
-
-## Próximos passos
-
-1. Adicionar todos os integrantes como colaboradores do repositório.
-2. Cada um evoluir sua issue e abrir Pull Requests para o trabalho realizado.
-3. Evoluir o Diagrama de Classes em `docs/diagrama-classes.md` conforme o
-   modelo de dados for definido.
-4. Iniciar o desenvolvimento do aplicativo.
-
+## 💡 Por que esse projeto faz diferença
+Hoje em dia quase todo mundo tem celular, mas quase ninguém tem por hábito consultar informação de descarte antes de jogar algo fora — é rápido demais, e a pessoa já jogou no lixo comum antes de parar pra pensar. O DescarteIA tenta encaixar essa consulta no momento exato da dúvida, tornando o processo tão simples quanto perguntar e receber a resposta na hora, o que aumenta a chance real de mudança de comportamento.
