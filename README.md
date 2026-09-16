@@ -55,14 +55,4 @@ No fim das contas, o app funciona como um "assistente de bolso" pra descarte de 
 
 ## 💡 Por que esse projeto faz diferença
 Hoje em dia quase todo mundo tem celular, mas quase ninguém tem por hábito consultar informação de descarte antes de jogar algo fora — é rápido demais, e a pessoa já jogou no lixo comum antes de parar pra pensar. O DescarteIA tenta encaixar essa consulta no momento exato da dúvida, tornando o processo tão simples quanto perguntar e receber a resposta na hora, o que aumenta a chance real de mudança de comportamento.
-
-## 📐 Diagramas
-
-### Diagrama de Classes
-![Diagrama de Classes](Diagramas/diagrama-classes.png)
-
-### C4 - Nível 1 (Contexto)
-![C4 Contexto](Diagramas/c4-nivel1-contexto.png)
-
-### C4 - Nível 2 (Contêineres)
-![C4 Contêineres](Diagramas/c4-nivel2-container.png)
+png)
