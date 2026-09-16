@@ -15,9 +15,9 @@ Isso causa alguns problemas no dia a dia:
 - As pessoas até têm boa vontade de descartar certo, mas desistem porque é complicado descobrir como.
 
 ## 🤖 A Solução com IA
-O DescarteIA usa a IA (API da Anthropic/Claude) como o "cérebro" do app, pra tirar a dúvida do usuário na hora:
+O DescarteIA usa a IA (API do Google Gemini) como o "cérebro" do app, pra tirar a dúvida do usuário na hora:
 
-1. O usuário descreve (ou no futuro, fotografa) o item que quer jogar fora.
+1. O usuário descreve o item que quer jogar fora.
 2. A IA identifica que tipo de resíduo é aquilo (reciclável, orgânico, perigoso, eletrônico, etc.).
 3. A IA explica pro usuário onde e como descartar aquilo certinho (ponto de coleta, ecoponto, cooperativa, lixo comum mesmo, etc.), de um jeito simples e direto.
 4. O app guarda um histórico das classificações que o usuário já fez, então dá pra ele ver quantas vezes descartou certo e ter noção do próprio impacto.
@@ -31,7 +31,7 @@ O DescarteIA é bem direto ao ponto: o usuário abre o app, digita (ou descreve)
 **Passo a passo de uso:**
 
 1. **Tela inicial**: o usuário vê um campo simples tipo "O que você quer descartar hoje?" e digita algo, tipo "pilha usada" ou "garrafa pet".
-2. **Classificação pela IA**: o app manda essa descrição pra IA (via API da Anthropic), que analisa o item e identifica a categoria dele — reciclável, orgânico, resíduo perigoso, eletrônico, etc.
+2. **Classificação pela IA**: o app manda essa descrição pra IA (via API do Gemini), que analisa o item e identifica a categoria dele — reciclável, orgânico, resíduo perigoso, eletrônico, etc.
 3. **Resposta com orientação**: a IA devolve uma explicação simples de como descartar aquilo certo (ex: "pilhas não vão no lixo comum, procure um ponto de coleta de eletrônicos ou supermercados que aceitam pilhas usadas").
 4. **Histórico salvo**: toda consulta que o usuário faz fica guardada no histórico do app, então ele consegue ver depois tudo que já pesquisou e como descartou.
 5. **Acompanhamento**: com o tempo, o usuário consegue enxergar quantos itens já classificou certo, criando um hábito mais consciente de descarte.
@@ -39,9 +39,10 @@ O DescarteIA é bem direto ao ponto: o usuário abre o app, digita (ou descreve)
 **Por trás dos panos (tecnicamente):**
 
 - O front-end é feito em **React**, com uma interface simples e responsiva pra funcionar bem tanto no celular quanto no navegador.
-- A parte de "inteligência" do app é feita chamando a **API da Anthropic (Claude)**, que recebe a descrição do item e devolve a classificação + orientação de descarte em linguagem natural.
+- A parte de "inteligência" do app é feita chamando a **API do Google Gemini**, que recebe a descrição do item e devolve a classificação + orientação de descarte em linguagem natural. Usamos o Gemini porque tem uma camada gratuita generosa (sem cartão de crédito e sem prazo de expiração), ideal pra um projeto acadêmico.
+- A chave da API é guardada em variável de ambiente (`.env`), nunca commitada no repositório.
 - O histórico das consultas é salvo localmente no navegador do usuário (local storage), então mesmo sem um banco de dados complexo, o usuário não perde o que já pesquisou.
-- A estrutura do sistema foi pensada em POO (Programação Orientada a Objetos), com entidades bem definidas como Usuário, Resíduo, Classificação e Histórico — isso facilita expandir o app no futuro (por exemplo, adicionando reconhecimento de imagem em vez de só texto).
+- A estrutura do sistema foi pensada em POO (Programação Orientada a Objetos), com entidades bem definidas como Usuário, Consulta, ClassificadorIA, ItemResiduo, CategoriaResiduo e OrientacaoDescarte — isso facilita expandir o app no futuro (por exemplo, adicionando reconhecimento de imagem em vez de só texto, ou um back-end dedicado com banco de dados).
 
 No fim das contas, o app funciona como um "assistente de bolso" pra descarte de lixo: você não precisa saber as regras de reciclagem de cor, só precisa perguntar.
 
@@ -54,3 +55,14 @@ No fim das contas, o app funciona como um "assistente de bolso" pra descarte de 
 
 ## 💡 Por que esse projeto faz diferença
 Hoje em dia quase todo mundo tem celular, mas quase ninguém tem por hábito consultar informação de descarte antes de jogar algo fora — é rápido demais, e a pessoa já jogou no lixo comum antes de parar pra pensar. O DescarteIA tenta encaixar essa consulta no momento exato da dúvida, tornando o processo tão simples quanto perguntar e receber a resposta na hora, o que aumenta a chance real de mudança de comportamento.
+
+## 📐 Diagramas
+
+### Diagrama de Classes
+![Diagrama de Classes](Diagramas/diagrama-classes.png)
+
+### C4 - Nível 1 (Contexto)
+![C4 Contexto](Diagramas/c4-nivel1-contexto.png)
+
+### C4 - Nível 2 (Contêineres)
+![C4 Contêineres](Diagramas/c4-nivel2-container.png)
