@@ -46,9 +46,6 @@ do que já foi consultado.
 - IA: API do Groq (free tier, sem cartão de crédito).
 - Banco: SQLite, só a tabela de histórico.
 
-Mais detalhes em [`docs/arquitetura.md`](docs/arquitetura.md) e
-[`docs/api.md`](docs/api.md).
-
 ## Diagramas
 
 [C4 nível 1](docs/c4-nivel1-contexto.md) · [C4 nível 2](docs/c4-nivel2-container.md) · [Classes](docs/diagrama-classes.md) · [Banco de dados](docs/diagrama-banco-de-dados.md) · [Casos de uso](docs/diagrama-casos-de-uso.md) · [Sequência](docs/diagrama-sequencia.md)
