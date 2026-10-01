@@ -27,60 +27,37 @@ function styleFor(category) {
   return CATEGORY_STYLES[category] || CATEGORY_STYLES.Outro;
 }
 
+const API_BASE_URL = "http://localhost:8000";
+
 async function classifyResidue(query) {
-  const system = `Você é o motor de classificação do DescarteIA, um app que ajuda pessoas a identificar resíduos e descobrir a forma correta de descarte no Brasil.
-
-Reconheça o resíduo mesmo quando o usuário usar nomes populares, abreviações, erros de digitação ou descrições informais (ex: "pet de coca" = Garrafa PET, "latinha" = lata de alumínio, "pilha do controle" = pilha). Considere o contexto da frase inteira, não apenas uma palavra isolada.
-
-Classifique sempre em UMA destas categorias:
-- Papel (papel sulfite, caderno, jornal, revista, cartolina, envelope, folheto, livro, papel de presente)
-- Papelão (caixa de papelão, caixa de cereal, papelão de mudança) — não recicláveis se muito contaminados com gordura ou alimentos
-- Plástico (garrafa PET, potes, copos, sacolas, tampas, PVC, embalagens, brinquedos)
-- Vidro (garrafas, potes, frascos — alerte para acondicionar cacos quebrados com segurança)
-- Metal (latas, alumínio, panelas, pregos, parafusos, ferragens, sucata)
-- Orgânico (restos de comida, cascas, borra de café, ossos, folhas, galhos pequenos)
-- Rejeito (papel higiênico usado, guardanapo contaminado, fralda, absorvente, esponja — sem aproveitamento na coleta seletiva comum)
-- Eletrônico (celular, computador, TV, cabos, carregadores, controles, consoles — NUNCA na coleta reciclável comum, indicar ponto de coleta de e-lixo)
-- Pilha ou bateria (pilhas, baterias de qualquer tipo — NUNCA lixo comum ou reciclável, indicar ponto de coleta específico)
-- Lâmpada (LED, fluorescente, incandescente — indicar ponto de coleta apropriado)
-- Resíduo de saúde (seringas, agulhas, medicamentos vencidos, curativos — indicar farmácia, unidade de saúde ou coleta apropriada)
-- Óleo de cozinha (óleo de fritura usado — nunca jogar na pia ou vaso sanitário; armazenar em recipiente fechado e levar a ponto de coleta)
-- Resíduo perigoso (tinta, solvente, produtos químicos concentrados, inseticidas, inflamáveis — orientação específica, não é reciclável comum)
-- Volumoso (móveis, colchão, sofá, eletrodomésticos grandes — indicar coleta de volumosos, ecoponto ou serviço municipal)
-- Têxtil (roupas, calçados, tecidos, toalhas, lençóis — sugerir doação se em bom estado, ou ponto de coleta têxtil)
-- Outro (quando nenhuma categoria acima se aplicar claramente)
-
-Lembre-se: material reciclável e local correto de descarte são coisas diferentes. Uma garrafa PET é plástico reciclável comum; já um celular é eletrônico e precisa de ponto de coleta específico, mesmo contendo materiais recicláveis.
-
-Nunca invente informação. Se a descrição for vaga demais para identificar o resíduo com confiança, ainda assim responda com o JSON abaixo usando categoria "Outro", e escreva no campo "descarte" uma pergunta simples e objetiva pedindo mais detalhes (ex: material, formato ou uso do objeto) em vez de uma instrução de descarte.
-
-Responda APENAS com um JSON válido, sem markdown, sem texto extra, no formato exato:
-{
-  "nome": "Nome curto do resíduo (ex: Garrafa PET)",
-  "categoria": "uma das categorias listadas acima",
-  "reciclavel": true ou false,
-  "descarte": "1-2 frases objetivas explicando como descartar corretamente no Brasil (ou a pergunta de esclarecimento, se aplicável)",
-  "dica": "1 frase curta com uma dica ou cuidado extra",
-  "emoji": "um único emoji que represente o resíduo"
-}
-Use linguagem simples, sem termos técnicos, para que qualquer pessoa entenda.`;
-
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+  const createRes = await fetch(`${API_BASE_URL}/descartes`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1000,
-      system,
-      messages: [{ role: "user", content: query }],
-    }),
+    body: JSON.stringify({ descricao_informada: query }),
   });
+  if (!createRes.ok) {
+    throw new Error("Não consegui cadastrar o descarte.");
+  }
+  const descarte = await createRes.json();
 
-  const data = await response.json();
-  const textBlock = data?.content?.find((b) => b.type === "text");
-  const raw = (textBlock?.text || "").trim();
-  const cleaned = raw.replace(/^```json/i, "").replace(/^```/, "").replace(/```$/, "").trim();
-  return JSON.parse(cleaned);
+  const classifyRes = await fetch(`${API_BASE_URL}/descartes/${descarte.id}/classificar`, {
+    method: "POST",
+  });
+  if (!classifyRes.ok) {
+    const erro = await classifyRes.json().catch(() => ({}));
+    throw new Error(erro.detail || "Não consegui classificar o resíduo.");
+  }
+  const classificado = await classifyRes.json();
+  const c = classificado.classificacao;
+
+  return {
+    nome: c.nome_residuo,
+    categoria: c.categoria,
+    reciclavel: c.reciclavel,
+    descarte: c.instrucoes_descarte,
+    dica: c.dica,
+    emoji: c.emoji,
+  };
 }
 
 // ---------- Small UI pieces ----------
@@ -345,20 +322,10 @@ export default function DescarteIA() {
   async function loadHistory() {
     setLoadingList(true);
     try {
-      const res = await window.storage.list("descarteia:item:");
-      const keys = res?.keys || [];
-      const entries = await Promise.all(
-        keys.map(async (k) => {
-          try {
-            const r = await window.storage.get(k);
-            return r ? JSON.parse(r.value) : null;
-          } catch {
-            return null;
-          }
-        })
-      );
-      const valid = entries.filter(Boolean).sort((a, b) => (b.ts || 0) - (a.ts || 0));
-      setHistory(valid);
+      const raw = localStorage.getItem("descarteia_historico");
+      const lista = raw ? JSON.parse(raw) : [];
+      lista.sort((a, b) => (b.ts || 0) - (a.ts || 0));
+      setHistory(lista);
     } catch {
       setHistory([]);
     } finally {
@@ -375,7 +342,7 @@ export default function DescarteIA() {
       setResult(parsed);
       setScreen("result");
     } catch (e) {
-      setError("Não consegui interpretar agora. Tente descrever de outra forma.");
+      setError(e.message || "Não consegui interpretar agora. Tente descrever de outra forma.");
     } finally {
       setLoading(false);
     }
@@ -385,7 +352,10 @@ export default function DescarteIA() {
     if (!result) return;
     const entry = { ...result, ts: Date.now() };
     try {
-      await window.storage.set(`descarteia:item:${entry.ts}`, JSON.stringify(entry));
+      const raw = localStorage.getItem("descarteia_historico");
+      const lista = raw ? JSON.parse(raw) : [];
+      lista.push(entry);
+      localStorage.setItem("descarteia_historico", JSON.stringify(lista));
       setSaved(true);
     } catch {
       setError("Não consegui salvar no histórico agora.");
