@@ -1,4 +1,4 @@
-# DescarteIA  Backend
+# DescarteIA - Backend
 
 Backend do **DescarteIA**, app que ajuda a identificar resíduos e orientar o
 descarte correto no Brasil. A taxonomia de categorias e o prompt de
@@ -7,9 +7,9 @@ projeto, adaptados para usar Gemini em vez da Anthropic.
 
 ## Funcionalidades
 
-1. **Cadastrar um Descarte** — `POST /descartes`
-2. **Enviar para a IA classificar** — `POST /descartes/{id}/classificar`
-3. **Consultar o resultado salvo** — `GET /descartes/{id}`
+1. **Cadastrar um Descarte** - `POST /descartes`
+2. **Enviar para a IA classificar** - `POST /descartes/{id}/classificar`
+3. **Consultar o resultado salvo** - `GET /descartes/{id}`
 
 ## Classes principais
 
@@ -35,7 +35,7 @@ categorias_residuo (1) ---- (N) classificacoes_ia (1) ---- (1) descartes
 
 - `descartes`: id, descricao_informada, status, data_registro
 - `classificacoes_ia`: id, descarte_id (FK, único), categoria_id (FK), nome_residuo,
-  reciclavel, instrucoes_descarte, dica, emoji, confianca (fica nulo — a API de IA
+  reciclavel, instrucoes_descarte, dica, emoji, confianca (fica nulo - a API de IA
   não retorna esse valor), prompt_utilizado, resposta_bruta, processado_em
 - `categorias_residuo`: id, nome, descricao, instrucoes_descarte, cor_identificacao,
   reciclavel
@@ -96,6 +96,6 @@ pip install pytest
 pytest -v
 ```
 
-Os testes usam um dublê (`FakeIAService`) no lugar da IA real — nenhum teste
+Os testes usam um dublê (`FakeIAService`) no lugar da IA real - nenhum teste
 automatizado chama a API de IA de verdade.
 

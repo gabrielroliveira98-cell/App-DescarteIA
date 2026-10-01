@@ -1,4 +1,4 @@
-# Diagrama de Sequência — Classificação de Resíduo via IA
+# Diagrama de Sequência - Classificação de Resíduo via IA
 
 Fluxo do momento em que o usuário descreve o item e o sistema devolve a orientação de descarte.
 

@@ -1,4 +1,4 @@
-# Diagrama do Banco de Dados — DescarteIA
+# Diagrama do Banco de Dados - DescarteIA
 
 MER das tabelas usadas no backend (SQLite via SQLAlchemy).
 
