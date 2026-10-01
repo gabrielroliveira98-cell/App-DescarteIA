@@ -1,10 +1,8 @@
 from app.categorias_data import CATEGORIAS
 
-NOMES_CATEGORIAS = [c["nome"] for c in CATEGORIAS]
-
 
 def montar_prompt_sistema() -> str:
-    lista_categorias = "\n".join(f"- {nome}" for nome in NOMES_CATEGORIAS)
+    lista_categorias = "\n".join(f"- {nome}" for nome in CATEGORIAS)
     return f"""Voce e o motor de classificacao do DescarteIA, um app que ajuda pessoas a \
 identificar residuos e descobrir a forma correta de descarte no Brasil.
 

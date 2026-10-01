@@ -1,6 +1,4 @@
-from app.models.status_descarte import StatusDescarte
-from app.models.categoria_residuo import CategoriaResiduo
-from app.models.descarte import Descarte
-from app.models.classificacao_ia import ClassificacaoIA
+from app.models.categoria import Categoria
+from app.models.historico_item import HistoricoItem
 
-__all__ = ["StatusDescarte", "CategoriaResiduo", "Descarte", "ClassificacaoIA"]
+__all__ = ["Categoria", "HistoricoItem"]
