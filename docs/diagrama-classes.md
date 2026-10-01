@@ -1,55 +1,49 @@
 # Diagrama de Classes - DescarteIA
 
-Reflete o que está implementado no backend até a Entrega 3.
+Reflete o backend real do projeto.
 
 ```mermaid
 classDiagram
-    class Descarte {
+    class HistoricoItem {
         +int id
-        +string descricaoInformada
-        +StatusDescarte status
-        +datetime dataRegistro
-    }
-
-    class StatusDescarte {
-        <<enumeration>>
-        PENDENTE
-        CLASSIFICADO
-        ERRO
-    }
-
-    class ClassificacaoIA {
-        +int id
-        +int descarteId
+        +string descricao
         +string nomeResiduo
+        +Categoria categoria
         +bool reciclavel
         +string instrucoesDescarte
         +string dica
         +string emoji
-        +float confianca
-        +string promptUtilizado
-        +string respostaBruta
-        +datetime processadoEm
+        +datetime dataRegistro
     }
 
-    class CategoriaResiduo {
-        +int id
-        +string nome
-        +string descricao
-        +string instrucoesDescarte
-        +string corIdentificacao
-        +bool reciclavel
+    class Categoria {
+        <<enumeration>>
+        Papel
+        Papelão
+        Plástico
+        Vidro
+        Metal
+        Orgânico
+        Rejeito
+        Eletrônico
+        Pilha ou bateria
+        Lâmpada
+        Resíduo de saúde
+        Óleo de cozinha
+        Resíduo perigoso
+        Volumoso
+        Têxtil
+        Outro
     }
 
-    class GeminiClassificacaoIAService {
+    class GroqClassificacaoIAService {
         -string apiKey
         +classificar(descricao) dict
     }
 
-    Descarte "1" --> "1" ClassificacaoIA : gera
-    ClassificacaoIA "*" --> "1" CategoriaResiduo : identifica
-    ClassificacaoIA ..> GeminiClassificacaoIAService : usa
-    Descarte --> StatusDescarte : possui
+    HistoricoItem --> Categoria : possui
+    GroqClassificacaoIAService ..> Categoria : classifica em
 ```
 
-`Usuario` e `PontoColeta`, que apareciam na versão inicial deste diagrama (documento de visão), ainda não foram implementados - ficam para uma próxima entrega, quando o app tiver cadastro de usuário e busca por local de coleta.
+`Usuario` e `PontoColeta`, do documento de visão inicial, não entraram no
+escopo até agora.
