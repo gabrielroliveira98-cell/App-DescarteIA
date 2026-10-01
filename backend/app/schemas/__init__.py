@@ -1,3 +1,13 @@
-from app.schemas.descarte_schemas import CriarDescarteRequest, ClassificacaoResponse, DescarteResponse
+from app.schemas.schemas import (
+    ClassificacaoResponse,
+    ClassificarRequest,
+    HistoricoItemResponse,
+    SalvarHistoricoRequest,
+)
 
-__all__ = ["CriarDescarteRequest", "ClassificacaoResponse", "DescarteResponse"]
+__all__ = [
+    "ClassificarRequest",
+    "ClassificacaoResponse",
+    "SalvarHistoricoRequest",
+    "HistoricoItemResponse",
+]

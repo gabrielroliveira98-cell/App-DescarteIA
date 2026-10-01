@@ -1,3 +1,3 @@
-from app.services.gemini_classification_service import GeminiClassificacaoIAService
+from app.services.groq_classification_service import GroqClassificacaoIAService
 
-__all__ = ["GeminiClassificacaoIAService"]
+__all__ = ["GroqClassificacaoIAService"]

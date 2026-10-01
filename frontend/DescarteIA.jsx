@@ -25,37 +25,40 @@ function styleFor(category) {
   return CATEGORY_STYLES[category] || CATEGORY_STYLES.Outro;
 }
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = window.DESCARTEIA_API_URL || "http://localhost:8000";
 
-async function classifyResidue(query) {
-  const createRes = await fetch(`${API_BASE_URL}/descartes`, {
+async function classifyResidue(descricao) {
+  const res = await fetch(`${API_BASE_URL}/api/classificar`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ descricao_informada: query }),
+    body: JSON.stringify({ descricao }),
   });
-  if (!createRes.ok) {
-    throw new Error("Não consegui cadastrar o descarte.");
-  }
-  const descarte = await createRes.json();
-
-  const classifyRes = await fetch(`${API_BASE_URL}/descartes/${descarte.id}/classificar`, {
-    method: "POST",
-  });
-  if (!classifyRes.ok) {
-    const erro = await classifyRes.json().catch(() => ({}));
+  if (!res.ok) {
+    const erro = await res.json().catch(() => ({}));
     throw new Error(erro.detail || "Não consegui classificar o resíduo.");
   }
-  const classificado = await classifyRes.json();
-  const c = classificado.classificacao;
+  return res.json();
+}
 
-  return {
-    nome: c.nome_residuo,
-    categoria: c.categoria,
-    reciclavel: c.reciclavel,
-    descarte: c.instrucoes_descarte,
-    dica: c.dica,
-    emoji: c.emoji,
-  };
+async function salvarNoHistorico(descricao, classificacao) {
+  const res = await fetch(`${API_BASE_URL}/api/historico`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ descricao, ...classificacao }),
+  });
+  if (!res.ok) throw new Error("Não consegui salvar no histórico.");
+  return res.json();
+}
+
+async function buscarHistorico() {
+  const res = await fetch(`${API_BASE_URL}/api/historico`);
+  if (!res.ok) throw new Error("Não consegui carregar o histórico.");
+  return res.json();
+}
+
+async function limparHistorico() {
+  const res = await fetch(`${API_BASE_URL}/api/historico`, { method: "DELETE" });
+  if (!res.ok) throw new Error("Não consegui limpar o histórico.");
 }
 
 function TopBar({ title, onBack }) {
@@ -238,11 +241,16 @@ function ResultScreen({ result, onBack, onSave, saved }) {
   );
 }
 
-function HistoryScreen({ items, onBack, onOpen, loadingList }) {
+function HistoryScreen({ items, onBack, onOpen, onClear, loadingList }) {
   return (
     <div className="screen history-screen">
       <TopBar title="Histórico" onBack={onBack} />
       <div className="history-body">
+        {items.length > 0 && !loadingList && (
+          <button className="clear-history-btn" onClick={onClear}>
+            Limpar histórico
+          </button>
+        )}
         {loadingList ? (
           <p className="history-empty">Carregando…</p>
         ) : items.length === 0 ? (
@@ -273,6 +281,8 @@ function HistoryScreen({ items, onBack, onOpen, loadingList }) {
 
       <style>{`
         .history-body { padding: 4px 20px 28px; }
+        .clear-history-btn { display:block; margin:0 0 12px auto; border:none; background:none; font-family:'Inter', sans-serif; font-size:12px; font-weight:600; color:#B4462F; cursor:pointer; }
+        .clear-history-btn:hover { text-decoration:underline; }
         .history-empty-wrap { display:flex; flex-direction:column; align-items:center; gap:12px; padding:60px 20px; text-align:center; }
         .history-empty { font-family:'Inter', sans-serif; font-size:13px; color:#7C8B7E; margin:0; line-height:1.5; }
         .history-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
@@ -314,9 +324,7 @@ export default function DescarteIA() {
   async function loadHistory() {
     setLoadingList(true);
     try {
-      const raw = localStorage.getItem("descarteia_historico");
-      const lista = raw ? JSON.parse(raw) : [];
-      lista.sort((a, b) => (b.ts || 0) - (a.ts || 0));
+      const lista = await buscarHistorico();
       setHistory(lista);
     } catch {
       setHistory([]);
@@ -330,8 +338,9 @@ export default function DescarteIA() {
     setLoading(true);
     setSaved(false);
     try {
-      const parsed = await classifyResidue(query.trim());
-      setResult(parsed);
+      const descricao = query.trim();
+      const parsed = await classifyResidue(descricao);
+      setResult({ ...parsed, descricao });
       setScreen("result");
     } catch (e) {
       setError(e.message || "Não consegui interpretar agora. Tente descrever de outra forma.");
@@ -342,15 +351,20 @@ export default function DescarteIA() {
 
   async function handleSave() {
     if (!result) return;
-    const entry = { ...result, ts: Date.now() };
     try {
-      const raw = localStorage.getItem("descarteia_historico");
-      const lista = raw ? JSON.parse(raw) : [];
-      lista.push(entry);
-      localStorage.setItem("descarteia_historico", JSON.stringify(lista));
+      await salvarNoHistorico(result.descricao, result);
       setSaved(true);
     } catch {
       setError("Não consegui salvar no histórico agora.");
+    }
+  }
+
+  async function handleClearHistory() {
+    try {
+      await limparHistorico();
+      setHistory([]);
+    } catch {
+      setError("Não consegui limpar o histórico agora.");
     }
   }
 
@@ -393,6 +407,7 @@ export default function DescarteIA() {
               items={history}
               onBack={() => setScreen("home")}
               onOpen={openHistoryItem}
+              onClear={handleClearHistory}
               loadingList={loadingList}
             />
           )}
