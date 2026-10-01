@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Leaf, Search, History, ArrowLeft, Recycle, AlertTriangle, Sparkles, Trash2, ChevronRight } from "lucide-react";
 
-// ---------- Helpers ----------
-
 const CATEGORY_STYLES = {
   Plástico: { bg: "#E7F3EC", fg: "#1C3D2E", ring: "#52A37C" },
   Vidro: { bg: "#E9F5F1", fg: "#0F3D33", ring: "#2FA88C" },
@@ -60,8 +58,6 @@ async function classifyResidue(query) {
   };
 }
 
-// ---------- Small UI pieces ----------
-
 function TopBar({ title, onBack }) {
   return (
     <div className="topbar">
@@ -87,8 +83,6 @@ function TopBar({ title, onBack }) {
     </div>
   );
 }
-
-// ---------- Screens ----------
 
 function HomeScreen({ query, setQuery, onAnalyze, loading, error, examples }) {
   return (
@@ -293,8 +287,6 @@ function HistoryScreen({ items, onBack, onOpen, loadingList }) {
     </div>
   );
 }
-
-// ---------- Root ----------
 
 export default function DescarteIA() {
   const [screen, setScreen] = useState("home"); // home | result | history

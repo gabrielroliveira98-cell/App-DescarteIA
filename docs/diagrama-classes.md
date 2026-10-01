@@ -1,29 +1,14 @@
 # Diagrama de Classes — DescarteIA
 
-> Ajuste os atributos e métodos conforme a implementação real do projeto (`models.py` / entidades do app).
+Reflete o que está implementado no backend até a Entrega 3.
 
 ```mermaid
 classDiagram
-    class Usuario {
-        +int id
-        +string nome
-        +string email
-        +string senhaHash
-        +datetime dataCadastro
-        +cadastrar() void
-        +login(email, senha) bool
-        +consultarHistorico() List~Descarte~
-    }
-
     class Descarte {
         +int id
-        +int usuarioId
-        +string imagemUrl
         +string descricaoInformada
-        +datetime dataRegistro
         +StatusDescarte status
-        +registrar() void
-        +vincularClassificacao(classificacao) void
+        +datetime dataRegistro
     }
 
     class StatusDescarte {
@@ -36,12 +21,15 @@ classDiagram
     class ClassificacaoIA {
         +int id
         +int descarteId
-        +string categoriaIdentificada
+        +string nomeResiduo
+        +bool reciclavel
+        +string instrucoesDescarte
+        +string dica
+        +string emoji
         +float confianca
         +string promptUtilizado
         +string respostaBruta
         +datetime processadoEm
-        +classificar(imagem) CategoriaResiduo
     }
 
     class CategoriaResiduo {
@@ -53,36 +41,15 @@ classDiagram
         +bool reciclavel
     }
 
-    class ServicoAnthropicAPI {
-        <<service>>
+    class GeminiClassificacaoIAService {
         -string apiKey
-        +enviarPrompt(imagem, contexto) string
-        +montarPromptClassificacao(dados) string
+        +classificar(descricao) dict
     }
 
-    class PontoColeta {
-        +int id
-        +string nome
-        +string endereco
-        +float latitude
-        +float longitude
-        +string[] categoriasAceitas
-        +buscarProximos(localizacao) List~PontoColeta~
-    }
-
-    Usuario "1" --> "*" Descarte : realiza
     Descarte "1" --> "1" ClassificacaoIA : gera
     ClassificacaoIA "*" --> "1" CategoriaResiduo : identifica
-    ClassificacaoIA ..> ServicoAnthropicAPI : utiliza
+    ClassificacaoIA ..> GeminiClassificacaoIAService : usa
     Descarte --> StatusDescarte : possui
-    CategoriaResiduo "1" --> "*" PontoColeta : direcionado para
 ```
 
-## Legenda
-
-- `<|--` Herança
-- `o--` Agregação
-- `*--` Composição
-- `-->` Associação direcionada
-- `..>` Dependência
-- `"1"`, `"*"` Multiplicidade
+`Usuario` e `PontoColeta`, que apareciam na versão inicial deste diagrama (documento de visão), ainda não foram implementados — ficam para uma próxima entrega, quando o app tiver cadastro de usuário e busca por local de coleta.

@@ -19,8 +19,7 @@ projeto, adaptados para usar Gemini em vez da Anthropic.
 | `StatusDescarte` | Enum | PENDENTE / CLASSIFICADO / ERRO |
 | `CategoriaResiduo` | Entidade (ORM) | Catálogo de categorias (Plástico, Vidro, Eletrônico...) |
 | `ClassificacaoIA` | Entidade (ORM) | Resultado que a IA devolveu para um Descarte |
-| `ClassificacaoIAServiceBase` | Classe abstrata | Contrato do serviço de IA |
-| `GeminiClassificacaoIAService` | Serviço (herda da base) | Implementação via Gemini |
+| `GeminiClassificacaoIAService` | Serviço | Chama a API do Gemini e devolve a classificação |
 | `CriarDescarteRequest` | DTO (Pydantic) | Corpo esperado por `POST /descartes` |
 | `DescarteResponse` | DTO (Pydantic) | Formato de resposta da API |
 | `ClassificacaoResponse` | DTO (Pydantic) | Formato da classificação dentro da resposta |
