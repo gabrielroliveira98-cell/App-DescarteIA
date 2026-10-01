@@ -4,14 +4,10 @@ from typing import Any, Dict
 
 import httpx
 
-from app.services.ia_classification_service import (
-    ClassificacaoIAError,
-    ClassificacaoIAServiceBase,
-    montar_prompt_sistema,
-)
+from app.services.ia_classification_service import ClassificacaoIAError, montar_prompt_sistema
 
 
-class GeminiClassificacaoIAService(ClassificacaoIAServiceBase):
+class GeminiClassificacaoIAService:
     BASE_URL = "https://generativelanguage.googleapis.com/v1beta"
 
     def __init__(self, api_key: str | None = None, model: str | None = None):

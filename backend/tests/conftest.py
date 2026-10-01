@@ -9,10 +9,9 @@ from app.database import Base, SessionLocal, engine, get_db
 from app.main import app
 from app.routers.descartes import get_ia_service
 from app.seed import seed_categorias
-from app.services.ia_classification_service import ClassificacaoIAServiceBase
 
 
-class FakeIAService(ClassificacaoIAServiceBase):
+class FakeIAService:
     def __init__(self):
         self.resultado = {
             "nome": "Garrafa PET",
