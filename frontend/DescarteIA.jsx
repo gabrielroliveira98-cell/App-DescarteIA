@@ -92,7 +92,7 @@ function HomeScreen({ query, setQuery, onAnalyze, loading, error, examples }) {
           <Leaf size={22} />
         </div>
         <h1 className="hero-title">DescarteIA</h1>
-        <p className="hero-sub">Descubra o destino certo para qualquer resíduo. Sem foto — só descreva.</p>
+        <p className="hero-sub">Descubra o destino certo para qualquer resíduo. Sem foto - só descreva.</p>
       </div>
 
       <form

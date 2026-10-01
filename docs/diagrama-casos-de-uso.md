@@ -1,4 +1,4 @@
-# Diagrama de Casos de Uso — DescarteIA
+# Diagrama de Casos de Uso - DescarteIA
 
 ```mermaid
 flowchart TB
@@ -26,4 +26,4 @@ flowchart TB
 
 Login, cadastro de usuário, pontos de coleta e um painel de admin para gerenciar
 categorias estavam no documento de visão inicial, mas não entraram no escopo
-desta entrega — foi definido como 2-3 funcionalidades essenciais pra entrega 3.
+desta entrega - foi definido como 2-3 funcionalidades essenciais pra entrega 3.

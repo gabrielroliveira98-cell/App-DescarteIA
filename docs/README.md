@@ -1,4 +1,4 @@
-# Documentação — DescarteIA
+# Documentação - DescarteIA
 
 Diagramas UML do projeto, feitos para a disciplina de Análise e Desenvolvimento
 de Sistemas. Escritos em Mermaid, renderizam direto no GitHub.
