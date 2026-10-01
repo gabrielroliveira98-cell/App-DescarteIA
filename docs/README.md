@@ -6,6 +6,7 @@ de Sistemas. Escritos em Mermaid, renderizam direto no GitHub.
 | Arquivo | Conteúdo |
 |---|---|
 | [`diagrama-classes.md`](diagrama-classes.md) | Classes implementadas no backend |
+| [`diagrama-banco-de-dados.md`](diagrama-banco-de-dados.md) | MER das tabelas do banco |
 | [`diagrama-casos-de-uso.md`](diagrama-casos-de-uso.md) | O que o usuário consegue fazer no app |
 | [`diagrama-sequencia.md`](diagrama-sequencia.md) | Fluxo de classificação de um resíduo via IA |
 
