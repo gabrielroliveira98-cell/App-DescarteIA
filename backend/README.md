@@ -1,4 +1,4 @@
-# DescarteIA — Backend
+# DescarteIA  Backend
 
 Backend do **DescarteIA**, app que ajuda a identificar resíduos e orientar o
 descarte correto no Brasil. A taxonomia de categorias e o prompt de
@@ -100,12 +100,3 @@ pytest -v
 Os testes usam um dublê (`FakeIAService`) no lugar da IA real — nenhum teste
 automatizado chama a API de IA de verdade.
 
-## Troubleshooting
-
-- **"GEMINI_API_KEY nao configurado"**: falta preencher o `.env` (passo 3) e
-  reiniciar o `uvicorn`.
-- **Erro 502/503 ao classificar**: erro de rede ou instabilidade temporária da
-  API do Gemini — a mensagem de erro retornada traz o detalhe, e costuma
-  funcionar tentando de novo.
-- **Erro 409 "ja foi classificado"**: um Descarte só pode ser classificado uma
-  vez (evita reprocessar e gastar cota da IA à toa).
