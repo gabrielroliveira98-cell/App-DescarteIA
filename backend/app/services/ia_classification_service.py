@@ -1,6 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import Any, Dict
-
 from app.categorias_data import CATEGORIAS
 
 NOMES_CATEGORIAS = [c["nome"] for c in CATEGORIAS]
@@ -37,12 +34,6 @@ Responda APENAS com um JSON valido, sem markdown, sem texto extra, no formato ex
   "emoji": "um unico emoji que represente o residuo"
 }}
 Use linguagem simples, sem termos tecnicos."""
-
-
-class ClassificacaoIAServiceBase(ABC):
-    @abstractmethod
-    def classificar(self, descricao: str) -> Dict[str, Any]:
-        raise NotImplementedError
 
 
 class ClassificacaoIAError(RuntimeError):

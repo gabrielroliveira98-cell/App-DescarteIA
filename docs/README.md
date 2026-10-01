@@ -1,28 +1,14 @@
-# 📄 Documentação Técnica — DescarteIA
+# Documentação — DescarteIA
 
-Esta pasta contém os diagramas UML do projeto **DescarteIA**, desenvolvido para a disciplina de Análise e Desenvolvimento de Sistemas (ADS).
+Diagramas UML do projeto, feitos para a disciplina de Análise e Desenvolvimento
+de Sistemas. Escritos em Mermaid, renderizam direto no GitHub.
 
-## Como usar
-
-1. Extraia esta pasta (`docs/`) dentro do seu repositório Git.
-2. Adicione e faça commit normalmente:
-
-```bash
-git add docs/
-git commit -m "docs: adiciona diagramas UML do projeto"
-git push
-```
-
-3. Os diagramas são escritos em **Mermaid** e renderizam automaticamente ao abrir os arquivos `.md` no GitHub — não precisa de nenhuma ferramenta externa.
-
-## Conteúdo
-
-| Arquivo | Descrição |
+| Arquivo | Conteúdo |
 |---|---|
-| [`diagrama-classes.md`](docs/diagrama-classes.md) | Diagrama de Classes UML — estrutura de dados e regras do sistema |
-| [`diagrama-casos-de-uso.md`](docs/diagrama-casos-de-uso.md) | Diagrama de Casos de Uso — interações do usuário com o sistema |
-| [`diagrama-sequencia.md`](docs/diagrama-sequencia.md) | Diagrama de Sequência — fluxo de classificação de resíduo via IA |
+| [`diagrama-classes.md`](diagrama-classes.md) | Classes implementadas no backend |
+| [`diagrama-banco-de-dados.md`](diagrama-banco-de-dados.md) | MER das tabelas do banco |
+| [`diagrama-casos-de-uso.md`](diagrama-casos-de-uso.md) | O que o usuário consegue fazer no app |
+| [`diagrama-sequencia.md`](diagrama-sequencia.md) | Fluxo de classificação de um resíduo via IA |
 
-## Sobre o projeto
-
-O **DescarteIA** é um protótipo de aplicativo mobile que utiliza a API da Anthropic (Claude) com técnicas de Prompt Engineering para identificar o tipo de resíduo a partir de uma foto/descrição e orientar o usuário sobre a forma correta de descarte.
+O DescarteIA ajuda a identificar um resíduo a partir de uma descrição em texto
+e orienta a forma correta de descarte, usando a API do Gemini.

@@ -1,21 +1,24 @@
 # Diagrama de Sequência — Classificação de Resíduo via IA
 
-Fluxo do momento em que o usuário envia uma foto e o sistema retorna a orientação de descarte.
+Fluxo do momento em que o usuário descreve o item e o sistema devolve a orientação de descarte.
 
 ```mermaid
 sequenceDiagram
     actor U as Usuário
-    participant App as App (Mobile)
+    participant App as App (React)
     participant API as Backend DescarteIA
-    participant IA as Anthropic API (Claude)
+    participant IA as Gemini API
     participant DB as Banco de Dados
 
-    U->>App: Envia foto do resíduo
-    App->>API: POST /descarte (imagem)
+    U->>App: Descreve o resíduo (texto)
+    App->>API: POST /descartes
     API->>DB: Salva registro (status: PENDENTE)
-    API->>IA: Envia prompt + imagem
-    IA-->>API: Retorna categoria identificada
-    API->>DB: Atualiza registro (status: CLASSIFICADO)
-    API-->>App: Retorna categoria + instruções
-    App-->>U: Exibe orientação de descarte
+    API-->>App: Retorna id do descarte
+
+    App->>API: POST /descartes/{id}/classificar
+    API->>IA: Envia prompt com a descrição
+    IA-->>API: Retorna categoria + instruções
+    API->>DB: Salva ClassificacaoIA, atualiza status para CLASSIFICADO
+    API-->>App: Retorna descarte + classificação
+    App-->>U: Exibe categoria, instruções e dica
 ```

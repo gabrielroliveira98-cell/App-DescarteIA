@@ -8,12 +8,12 @@ from app.models.descarte import Descarte
 from app.models.status_descarte import StatusDescarte
 from app.schemas.descarte_schemas import CriarDescarteRequest, DescarteResponse
 from app.services.gemini_classification_service import GeminiClassificacaoIAService
-from app.services.ia_classification_service import ClassificacaoIAError, ClassificacaoIAServiceBase
+from app.services.ia_classification_service import ClassificacaoIAError
 
 router = APIRouter(prefix="/descartes", tags=["descartes"])
 
 
-def get_ia_service() -> ClassificacaoIAServiceBase:
+def get_ia_service() -> GeminiClassificacaoIAService:
     return GeminiClassificacaoIAService()
 
 
@@ -30,7 +30,7 @@ def criar_descarte(payload: CriarDescarteRequest, db: Session = Depends(get_db))
 def classificar_descarte(
     descarte_id: int,
     db: Session = Depends(get_db),
-    ia_service: ClassificacaoIAServiceBase = Depends(get_ia_service),
+    ia_service: GeminiClassificacaoIAService = Depends(get_ia_service),
 ):
     descarte = db.get(Descarte, descarte_id)
     if descarte is None:
