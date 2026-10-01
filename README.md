@@ -31,7 +31,7 @@ O DescarteIA é bem direto ao ponto: o usuário abre o app, digita (ou descreve)
 **Passo a passo de uso:**
 
 1. **Tela inicial**: o usuário vê um campo simples tipo "O que você quer descartar hoje?" e digita algo, tipo "pilha usada" ou "garrafa pet".
-2. **Classificação pela IA**: o app manda essa descrição pra IA (via API do Gemini), que analisa o item e identifica a categoria dele — reciclável, orgânico, resíduo perigoso, eletrônico, etc.
+2. **Classificação pela IA**: o app manda essa descrição pra IA (via API do Gemini), que analisa o item e identifica a categoria dele reciclável, orgânico, resíduo perigoso, eletrônico, etc.
 3. **Resposta com orientação**: a IA devolve uma explicação simples de como descartar aquilo certo (ex: "pilhas não vão no lixo comum, procure um ponto de coleta de eletrônicos ou supermercados que aceitam pilhas usadas").
 4. **Histórico salvo**: toda consulta que o usuário faz fica guardada no histórico do app, então ele consegue ver depois tudo que já pesquisou e como descartou.
 5. **Acompanhamento**: com o tempo, o usuário consegue enxergar quantos itens já classificou certo, criando um hábito mais consciente de descarte.
