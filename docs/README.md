@@ -10,8 +10,6 @@ GitHub; os PNG equivalentes ficam em `diagramas/`.
 | [`c4-nivel2-container.md`](c4-nivel2-container.md) | C4 nível 2 - contêineres |
 | [`diagrama-classes.md`](diagrama-classes.md) | Classes implementadas no backend |
 | [`diagrama-banco-de-dados.md`](diagrama-banco-de-dados.md) | MER da tabela do banco |
-| [`diagrama-casos-de-uso.md`](diagrama-casos-de-uso.md) | O que o usuário consegue fazer |
-| [`diagrama-sequencia.md`](diagrama-sequencia.md) | Fluxo de análise e de histórico |
 
 O DescarteIA ajuda a identificar um resíduo a partir de uma descrição em texto
 e orienta a forma correta de descarte, usando a API do Groq.
