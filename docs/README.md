@@ -6,8 +6,6 @@ GitHub; os PNG equivalentes ficam em `diagramas/`.
 
 | Arquivo | Conteúdo |
 |---|---|
-| [`arquitetura.md`](arquitetura.md) | Como as partes do sistema se conectam |
-| [`api.md`](api.md) | Cada rota do backend, com exemplo |
 | [`c4-nivel1-contexto.md`](c4-nivel1-contexto.md) | C4 nível 1 - contexto geral |
 | [`c4-nivel2-container.md`](c4-nivel2-container.md) | C4 nível 2 - contêineres |
 | [`diagrama-classes.md`](diagrama-classes.md) | Classes implementadas no backend |
