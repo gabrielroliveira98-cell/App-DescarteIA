@@ -1,0 +1,98 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #F6F8F3;
+}
+
+.app-shell {
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 12px;
+  background: radial-gradient(120% 90% at 50% -10%, #EAF3E7 0%, #F6F8F3 55%, #F6F8F3 100%);
+  box-sizing: border-box;
+}
+
+.phone {
+  width: 100%;
+  max-width: 380px;
+  height: 760px;
+  max-height: 90vh;
+  background: #F6F8F3;
+  border-radius: 40px;
+  border: 1px solid #E1E9DC;
+  box-shadow: 0 30px 60px -30px rgba(20,40,28,0.35), 0 0 0 8px #FFFFFF, 0 0 0 9px #DEE6D8;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 20px;
+  background: #12241B;
+  border-radius: 999px;
+  z-index: 5;
+}
+
+.phone-screen {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 34px;
+  scrollbar-width: none;
+}
+.phone-screen::-webkit-scrollbar { display: none; }
+
+.screen {
+  animation: rise 0.35s ease;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tabbar {
+  display: flex;
+  border-top: 1px solid #E1E9DC;
+  background: #FFFFFF;
+}
+.tab {
+  flex: 1;
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 0 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #A9B6AA;
+  cursor: pointer;
+  transition: color .15s ease;
+}
+.tab.active { color: #1C3D2E; }
+.tab:focus-visible { outline: 2px solid #52A37C; outline-offset: -2px; }
+
+.placeholder {
+  padding: 60px 24px;
+  text-align: center;
+  color: #7C8B7E;
+  font-size: 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen { animation: none; }
+}
