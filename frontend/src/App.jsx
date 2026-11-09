@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Search, History } from "lucide-react";
+import TelaAnalisar from "./telas/TelaAnalisar.jsx";
 
 export default function App() {
   const [tela, setTela] = useState("analisar");
@@ -9,7 +10,7 @@ export default function App() {
       <div className="phone">
         <div className="phone-notch" />
         <div className="phone-screen">
-          {tela === "analisar" && <p className="placeholder">Tela Analisar em construção</p>}
+          {tela === "analisar" && <TelaAnalisar />}
           {tela === "historico" && <p className="placeholder">Tela Histórico em construção</p>}
         </div>
 
