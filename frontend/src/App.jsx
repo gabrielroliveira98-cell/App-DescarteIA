@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Search, History } from "lucide-react";
 import TelaAnalisar from "./telas/TelaAnalisar.jsx";
+import TelaHistorico from "./telas/TelaHistorico.jsx";
 
 export default function App() {
   const [tela, setTela] = useState("analisar");
@@ -11,7 +12,7 @@ export default function App() {
         <div className="phone-notch" />
         <div className="phone-screen">
           {tela === "analisar" && <TelaAnalisar />}
-          {tela === "historico" && <p className="placeholder">Tela Histórico em construção</p>}
+          {tela === "historico" && <TelaHistorico />}
         </div>
 
         <nav className="tabbar">

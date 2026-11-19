@@ -86,13 +86,6 @@ body {
 .tab.active { color: #1C3D2E; }
 .tab:focus-visible { outline: 2px solid #52A37C; outline-offset: -2px; }
 
-.placeholder {
-  padding: 60px 24px;
-  text-align: center;
-  color: #7C8B7E;
-  font-size: 13px;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .screen { animation: none; }
 }
