@@ -77,3 +77,88 @@ Entre os principais usuários estão:
 O aplicativo foi pensado para ser simples e acessível, permitindo que o usuário informe o material que deseja descartar e receba uma orientação de forma rápida.
 
 Dessa maneira, o **DescarteIA** busca facilitar o acesso à informação e incentivar hábitos mais responsáveis de descarte e reciclagem.
+
+---
+
+## Estrutura do repositório
+
+| Pasta | O que tem |
+|---|---|
+| `frontend/` | Aplicativo em React + Vite (2 telas: Analisar e Histórico) |
+| `backend/` | API em Python + FastAPI, banco SQLite e integração com o Groq |
+| `docs/` | Diagramas C4, de classes e do banco de dados |
+
+---
+
+## Como rodar o projeto
+
+### 1. Back-end (API)
+
+Precisa de Python 3.12+ e de uma chave gratuita do Groq (https://console.groq.com/keys).
+
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
+```
+
+Preencha `GROQ_API_KEY` no arquivo `.env` e suba a API:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+A API fica em `http://localhost:8000` e a documentação das rotas em `http://localhost:8000/docs`.
+
+### 2. Front-end (aplicativo)
+
+Precisa do Node.js 18+. Em outro terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+O app abre em `http://localhost:5173`. A API precisa estar rodando ao mesmo tempo.
+
+---
+
+## Como o aplicativo conversa com a API
+
+O app tem só 2 telas, focadas na função principal:
+
+- **Analisar**: o usuário descreve o resíduo e clica em **Analisar descarte**. O resultado aparece na mesma tela, com o botão **Salvar no histórico**.
+- **Histórico**: lista o que já foi salvo e permite limpar a lista.
+
+Toda a comunicação fica no arquivo `frontend/src/api.js`, usando `fetch`, que é a forma nativa do navegador de fazer requisições HTTP:
+
+| Ação no app | Requisição | Rota da API |
+|---|---|---|
+| Clicar em "Analisar descarte" | `POST` | `/api/classificar` |
+| Clicar em "Salvar no histórico" | `POST` | `/api/historico` |
+| Abrir a tela Histórico | `GET` | `/api/historico` |
+| Clicar em "Limpar histórico" | `DELETE` | `/api/historico` |
+
+Exemplo do que o app envia ao clicar em **Analisar descarte**:
+
+```json
+{ "descricao": "pilha velha do controle" }
+```
+
+E o que a API devolve depois de consultar a IA do Groq:
+
+```json
+{
+  "nome": "Pilha do controle",
+  "categoria": "Pilha ou bateria",
+  "reciclavel": true,
+  "descarte": "Leve a um ponto de coleta de pilhas e baterias...",
+  "dica": "Guarde as pilhas usadas em um pote fechado até levar ao ponto de coleta.",
+  "emoji": "🔋"
+}
+```
+
+O app nunca fala direto com o Groq. Ele só conversa com a nossa API, e é a API que guarda a chave do Groq e chama a IA. Assim a chave não fica exposta no código do aplicativo.
