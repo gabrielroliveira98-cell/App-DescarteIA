@@ -30,3 +30,15 @@ def test_limpa_historico(client):
 
     lista = client.get("/api/historico")
     assert lista.json() == []
+
+
+def test_categoria_invalida_vira_outro(client, fake_ia_service):
+    fake_ia_service.resultado["categoria"] = "Categoria inventada"
+    response = client.post("/api/classificar", json={"descricao": "objeto estranho"})
+    assert response.status_code == 200
+    assert response.json()["categoria"] == "Outro"
+
+
+def test_descricao_curta_demais(client):
+    response = client.post("/api/classificar", json={"descricao": "a"})
+    assert response.status_code == 422

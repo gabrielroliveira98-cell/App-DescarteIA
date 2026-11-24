@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from app.categorias_data import CATEGORIAS
 from app.database import get_db
 from app.models.historico_item import HistoricoItem
 from app.schemas.schemas import (
@@ -39,6 +40,8 @@ def classificar(payload: ClassificarRequest, ia_service: GroqClassificacaoIAServ
         resultado = ia_service.classificar(payload.descricao)
     except ClassificacaoIAError as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
+    if resultado.get("categoria") not in CATEGORIAS:
+        resultado["categoria"] = "Outro"
     return resultado
 
 

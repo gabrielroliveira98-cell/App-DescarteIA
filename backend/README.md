@@ -69,7 +69,6 @@ curl -X POST http://localhost:8000/api/classificar -H "Content-Type: application
 ## Rodar os testes
 
 ```bash
-pip install pytest
 pytest -v
 ```
 
