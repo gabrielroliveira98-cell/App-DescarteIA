@@ -1,5 +1,7 @@
 # DescarteIA
 
+> 🎥 **Vídeo da Entrega 4 (app conversando com a API):** https://drive.google.com/file/d/10YCbyaV_uLVKDlQfTbUGPQIIujuLbpcg/view?usp=sharing
+
 ## ODS Escolhido
 
 **ODS 12 - Consumo e Produção Responsáveis**
