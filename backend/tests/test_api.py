@@ -42,3 +42,9 @@ def test_categoria_invalida_vira_outro(client, fake_ia_service):
 def test_descricao_curta_demais(client):
     response = client.post("/api/classificar", json={"descricao": "a"})
     assert response.status_code == 422
+
+
+def test_saude_mostra_banco(client):
+    response = client.get("/saude")
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok", "banco": "sqlite"}
