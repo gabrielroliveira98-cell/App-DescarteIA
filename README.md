@@ -1,6 +1,11 @@
 # DescarteIA
 
+> 🌐 **API no ar:** https://app-descarteia.onrender.com (teste rápido: [`/saude`](https://app-descarteia.onrender.com/saude) · documentação: [`/docs`](https://app-descarteia.onrender.com/docs))
+>
+> 🎥 **Vídeo da Entrega 5 (API e banco na nuvem):** COLOCAR_LINK_DO_VIDEO_AQUI
+>
 > 🎥 **Vídeo da Entrega 4 (app conversando com a API):** https://drive.google.com/file/d/10YCbyaV_uLVKDlQfTbUGPQIIujuLbpcg/view?usp=sharing
+
 
 ## ODS Escolhido
 
@@ -87,7 +92,7 @@ Dessa maneira, o **DescarteIA** busca facilitar o acesso à informação e incen
 | Pasta | O que tem |
 |---|---|
 | `frontend/` | Aplicativo em React + Vite (2 telas: Analisar e Histórico) |
-| `backend/` | API em Python + FastAPI, banco SQLite e integração com o Groq |
+| `backend/` | API em Python + FastAPI, banco (SQLite local ou PostgreSQL na nuvem) e integração com o Groq |
 | `docs/` | Diagramas C4, de classes e do banco de dados |
 
 ---
@@ -164,3 +169,52 @@ E o que a API devolve depois de consultar a IA do Groq:
 ```
 
 O app nunca fala direto com o Groq. Ele só conversa com a nossa API, e é a API que guarda a chave do Groq e chama a IA. Assim a chave não fica exposta no código do aplicativo.
+
+---
+
+## Deploy na nuvem
+
+O DescarteIA está hospedado em serviços gratuitos:
+
+| Parte | Onde está | Por quê |
+|---|---|---|
+| API (FastAPI) | **Render** (plano free) | Faz o deploy direto do GitHub e roda Python sem configuração extra |
+| Banco de dados | **Supabase** (PostgreSQL, plano free) | Postgres gratuito e com painel pra ver as tabelas pelo navegador |
+| IA | **Groq** (plano free) | Já era usada desde a Entrega 3 |
+| Aplicativo | Roda no computador ou no celular do usuário | O professor liberou não publicar nas lojas |
+
+Como foi feito:
+
+1. **Banco:** criamos um projeto no Supabase e copiamos a *connection string* do **Session pooler**. A tabela `historico` é criada sozinha pela API no primeiro start (`Base.metadata.create_all`).
+2. **API:** no Render, criamos um *Blueprint* apontando pra este repositório. O arquivo `render.yaml` na raiz diz tudo que o Render precisa: pasta `backend`, comando de instalação e comando de start.
+3. **Variáveis de ambiente:** no painel do Render cadastramos `GROQ_API_KEY` e `DATABASE_URL`. Elas não ficam no código.
+4. **Aplicativo:** o arquivo `frontend/.env.production` aponta o app pra URL pública da API, em vez do `localhost`.
+
+Pra conferir se a API está no ar e conectada no banco da nuvem, basta abrir `/saude`. A resposta mostra `"banco": "postgresql"`.
+
+> ⚠️ No plano gratuito o Render "dorme" depois de uns 15 minutos sem uso. A primeira requisição depois disso pode demorar perto de 1 minuto. Depois volta ao normal.
+
+### Rodando o app apontando pra nuvem
+
+```bash
+cd frontend
+npm install
+npm run build
+npm run preview
+```
+
+O `build` usa o `.env.production`, então o app já conversa com a API do Render. Pra abrir no celular (mesma rede Wi-Fi), use `npm run celular` e acesse pelo endereço `Network` que aparece no terminal.
+
+---
+
+## O DescarteIA como Software como Serviço (SaaS)
+
+SaaS é quando o usuário usa um software que roda na nuvem, sem precisar instalar nem manter servidor nenhum. Ele só consome o serviço.
+
+No DescarteIA isso acontece assim:
+
+- **O usuário não instala nada além do app.** A IA, a API e o banco ficam na nuvem. Quem usa só abre o aplicativo e descreve o resíduo.
+- **A inteligência fica no servidor.** O app não sabe classificar nada sozinho: ele manda a descrição pra API, que consulta o Groq e devolve a resposta.
+- **Os dados ficam centralizados.** O histórico é salvo no banco da nuvem, não no aparelho. Se trocar de navegador ou de celular, o histórico continua lá.
+- **Atualização sem o usuário fazer nada.** Se melhorarmos o prompt da IA ou corrigirmos um bug na API, basta um novo deploy. Todo mundo passa a usar a versão nova na hora.
+- **A chave da IA fica protegida.** Ela está só nas variáveis de ambiente do Render, nunca no aplicativo.
