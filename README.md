@@ -1,11 +1,10 @@
 # DescarteIA
 
+> 📊 **Apresentação (pitch deck):** [docs/pitch-deck.pdf](docs/pitch-deck.pdf)
+
 > 🌐 **API no ar:** https://app-descarteia.onrender.com (teste rápido: [`/saude`](https://app-descarteia.onrender.com/saude) · documentação: [`/docs`](https://app-descarteia.onrender.com/docs))
 >
-> 🎥 **Vídeo da Entrega 5 (API e banco na nuvem):** COLOCAR_LINK_DO_VIDEO_AQUI
->
 > 🎥 **Vídeo da Entrega 4 (app conversando com a API):** https://drive.google.com/file/d/10YCbyaV_uLVKDlQfTbUGPQIIujuLbpcg/view?usp=sharing
-
 
 ## ODS Escolhido
 
@@ -186,7 +185,7 @@ O DescarteIA está hospedado em serviços gratuitos:
 Como foi feito:
 
 1. **Banco:** criamos um projeto no Supabase e copiamos a *connection string* do **Session pooler**. A tabela `historico` é criada sozinha pela API no primeiro start (`Base.metadata.create_all`).
-2. **API:** no Render, criamos um *Blueprint* apontando pra este repositório. O arquivo `render.yaml` na raiz diz tudo que o Render precisa: pasta `backend`, comando de instalação e comando de start.
+2. **API:** no Render, criamos um *Web Service* ligado a este repositório, com a pasta `backend`, o comando de instalação e o comando de start. O arquivo `render.yaml` na raiz guarda essa mesma configuração, pra recriar o serviço se precisar.
 3. **Variáveis de ambiente:** no painel do Render cadastramos `GROQ_API_KEY` e `DATABASE_URL`. Elas não ficam no código.
 4. **Aplicativo:** o arquivo `frontend/.env.production` aponta o app pra URL pública da API, em vez do `localhost`.
 
@@ -218,3 +217,56 @@ No DescarteIA isso acontece assim:
 - **Os dados ficam centralizados.** O histórico é salvo no banco da nuvem, não no aparelho. Se trocar de navegador ou de celular, o histórico continua lá.
 - **Atualização sem o usuário fazer nada.** Se melhorarmos o prompt da IA ou corrigirmos um bug na API, basta um novo deploy. Todo mundo passa a usar a versão nova na hora.
 - **A chave da IA fica protegida.** Ela está só nas variáveis de ambiente do Render, nunca no aplicativo.
+
+---
+
+## Retrospectiva do semestre
+
+### O que deu certo
+
+- A IA entende o jeito que as pessoas falam ("pet de coca", "pilha do controle") e sempre responde numa das 16 categorias fixas. Se a resposta vier com uma categoria que não existe, a API troca por "Outro".
+- Os testes automáticos usam uma IA falsa, então dá pra testar a API inteira sem gastar chamada nem depender da internet.
+- API e banco foram pra nuvem sem gastar nada (Render + Supabase no plano gratuito).
+- Separar o front em vários arquivos (`api.js`, telas e componentes) deixou cada integrante trabalhar na sua parte sem conflito no Git.
+
+### O que deu errado (ou deu muito trabalho)
+
+- **Trocamos de IA três vezes.** O protótipo usava a Anthropic, que é paga. Passamos pro Gemini, que começou a devolver erro 503 de "alta demanda". Fechamos com o Groq, que é gratuito e respondeu bem.
+- **Começamos o back-end em C#** e mudamos pra Python, que é a linguagem que estávamos usando na disciplina.
+- **Commits que "não subiam":** o Git de uma das máquinas não tinha nome e e-mail configurados, então o `git commit` falhava e a gente achava que tinha enviado.
+- **Banco na nuvem:** no SQLite tudo funcionava, mas no PostgreSQL um texto maior que o tamanho da coluna quebrava o salvamento. Tivemos que mudar os campos longos pra `text`.
+
+### O que planejamos e não deu tempo
+
+| Ideia | Situação |
+|---|---|
+| Login e cadastro de usuário (classe `Usuario`) | Não feito |
+| Pontos de coleta próximos (classe `PontoColeta`) | Não feito |
+| Classificar o resíduo por foto | Não feito |
+
+---
+
+## O futuro do DescarteIA
+
+Com mais 6 meses e investimento, os próximos passos seriam:
+
+1. **Classificação por foto:** apontar a câmera e a IA reconhece o resíduo.
+2. **Mapa de pontos de coleta:** mostrar o local mais próximo pela localização do celular.
+3. **Conta do usuário:** login, histórico pessoal e pontos por descarte correto.
+4. **App nas lojas:** versão mobile nativa (React Native) na Play Store e na App Store.
+5. **Parcerias com prefeituras e cooperativas:** elas mesmas cadastram pontos e horários de coleta.
+6. **Dados para a cidade:** painel mostrando quais resíduos mais geram dúvida em cada região.
+
+---
+
+## Equipe
+
+| Integrante | GitHub |
+|---|---|
+| Gabriel Rodrigues de Oliveira | [@gabrielroliveira98-cell](https://github.com/gabrielroliveira98-cell) |
+| João Pedro Martins Santos (Jotapê) | [@JpMaartins](https://github.com/JpMaartins) |
+| Larissa | [@LarissaOliveira245](https://github.com/LarissaOliveira245) |
+| Naylson | [@naylson02](https://github.com/naylson02) |
+| Renato | [@renatomauad-star](https://github.com/renatomauad-star) |
+| Roberthy | [@roberthyassun-DEV](https://github.com/roberthyassun-DEV) |
+| Artur | [@Amaral011](https://github.com/Amaral011) |
