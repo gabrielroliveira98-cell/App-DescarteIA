@@ -1,5 +1,7 @@
 # DescarteIA
 
+> 📱 **Abrir o app no navegador:** https://gabrielroliveira98-cell.github.io/App-DescarteIA/ (funciona no PC e no celular; o primeiro acesso pode demorar uns 30 a 50 segundos enquanto a API acorda)
+
 > 📊 **Apresentação (pitch deck):** [docs/pitch-deck.pdf](docs/pitch-deck.pdf)
 
 > 🌐 **API no ar:** https://app-descarteia.onrender.com (teste rápido: [`/saude`](https://app-descarteia.onrender.com/saude) · documentação: [`/docs`](https://app-descarteia.onrender.com/docs))
