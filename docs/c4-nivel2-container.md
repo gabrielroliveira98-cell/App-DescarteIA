@@ -5,15 +5,15 @@ flowchart TB
     Usuario["<b>Usuário</b><br/>[Pessoa]<br/><br/>Morador da cidade que quer<br/>descartar um item corretamente"]
 
     subgraph Sistema["DescarteIA [Fronteira do Sistema]"]
-        Front["<b>Aplicativo</b><br/>[Container: React]<br/><br/>Interface onde o usuário<br/>descreve o item e vê o<br/>resultado da classificação"]
-        Back["<b>API Backend</b><br/>[Container: Python / FastAPI]<br/><br/>Recebe a requisição do app,<br/>protege a chave da IA e<br/>orquestra a chamada externa"]
-        DB[("<b>Banco de Dados</b><br/>[Container: SQLite]<br/><br/>Armazena o histórico<br/>de consultas já feitas")]
+        Front["<b>Aplicativo</b><br/>[Container: React + Vite]<br/><br/>Roda no navegador ou no celular.<br/>O usuário descreve o item e vê<br/>o resultado da classificação"]
+        Back["<b>API Backend</b><br/>[Container: Python / FastAPI]<br/>Hospedada no Render<br/><br/>Recebe a requisição do app,<br/>protege a chave da IA e<br/>orquestra a chamada externa"]
+        DB[("<b>Banco de Dados</b><br/>[Container: PostgreSQL]<br/>Hospedado no Supabase<br/><br/>Armazena o histórico<br/>de consultas salvas")]
     end
 
     Groq["<b>Groq API</b><br/>[Sistema Externo]<br/><br/>Classifica o resíduo e gera<br/>a orientação de descarte"]
 
     Usuario -->|"Usa [HTTPS]"| Front
-    Front -->|"Envia descrição do item<br/>[JSON/HTTPS]"| Back
+    Front -->|"GET / POST / DELETE<br/>[JSON/HTTPS]"| Back
     Back -->|"Lê e grava<br/>histórico [SQL]"| DB
     Back -->|"Solicita classificação<br/>[HTTPS/JSON]"| Groq
 
@@ -24,3 +24,6 @@ flowchart TB
     class Front,Back,DB container
     class Groq externo
 ```
+
+Desde a Entrega 5 a API e o banco rodam na nuvem (Render e Supabase, ambos no plano gratuito).
+Rodando localmente, o banco continua sendo um arquivo SQLite, sem precisar instalar nada.
